@@ -134,7 +134,7 @@ home_banner:
     light: /images/wallhaven-wqery6-light.webp # light mode
     dark: /images/wallhaven-wqery6-dark.webp # dark mode
   # Home banner title
-  title: My Notebook
+  title: Veritas
   # Home banner subtitle
   subtitle:
     text: ["Welcome to my notebook","欢迎来到我的个人网站","Theme Redefine"] # subtitle text, array
