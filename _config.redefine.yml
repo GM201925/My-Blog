@@ -214,6 +214,8 @@ navbar:
     Home: 
       path: / 
       icon: fa-regular fa-house # can be empty
+    My Notes:
+      path: /CS70/
     # Archives: 
     #   path: /archives 
     #   icon: fa-regular fa-archive # can be empty

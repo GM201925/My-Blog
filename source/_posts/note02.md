@@ -1,7 +1,8 @@
 ---
-title: Note02
-date: 2026-3-3 16:52
-
+title: CS70 Note02
+date: 2026-03-03 16:52
+categories: 'CS70 Notes'
+mathjax: true
 ---
 
 
