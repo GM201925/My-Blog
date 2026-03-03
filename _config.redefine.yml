@@ -134,10 +134,10 @@ home_banner:
     light: /images/wallhaven-wqery6-light.webp # light mode
     dark: /images/wallhaven-wqery6-dark.webp # dark mode
   # Home banner title
-  title: Theme Redefine
+  title: My Notebook
   # Home banner subtitle
   subtitle:
-    text: ["Welcome to my notebook","欢迎来到我的个人网站"] # subtitle text, array
+    text: ["Welcome to my notebook","欢迎来到我的个人网站","Theme Redefine"] # subtitle text, array
     hitokoto:  # 一言配置
       enable: false # Whether to enable hitokoto
       show_author: false # Whether to show author
@@ -237,7 +237,7 @@ navbar:
   # Navbar search (local search). Requires hexo-generator-searchdb (npm i hexo-generator-searchdb). See https://github.com/theme-next/hexo-generator-searchdb
   search:
     # Whether to enable
-    enable: false
+    enable: true
     # Preload search data when the page loads
     preload: true
 # NAVIGATION BAR <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
@@ -323,8 +323,8 @@ articles:
   # Table of contents settings
   toc:
     enable: true # Whether to enable TOC
-    max_depth: 3 # TOC depth
-    number: false # Whether to add number to TOC automatically
+    max_depth: 5 # TOC depth
+    number: true # Whether to add number to TOC automatically
     expand: true # Whether to expand TOC
     init_open: true # Open toc by default
   # Whether to enable copyright notice
@@ -417,11 +417,11 @@ footer:
   # Icon in footer, write fontawesome icon code here
   icon: '<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>'
   # The start time of the website, format: YYYY/MM/DD HH:mm:ss
-  start: 2022/8/17 11:45:14
+  start: 2026/3/3 16:00:00
   # Site statistics
   statistics: true # show site statistics or not (total articles, total words)
   # Footer message
-  customize:
+  customize:"感谢阅读，希望对你有所帮助"
   # ICP record number. See https://beian.miit.gov.cn/
   icp:
     enable: false # Whether to enable
