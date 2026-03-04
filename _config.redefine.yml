@@ -116,9 +116,10 @@ fontawesome: # Pro v6.2.1
   # Light version
   light: false
   # Duotone version
-  duotone: false
+  duotone: true
   # Sharp Solid version
   sharp_solid: false
+  regular: true
 # FONTAWESOME <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
 
 
@@ -215,7 +216,12 @@ navbar:
       path: / 
       icon: fa-regular fa-house # can be empty
     My Notes:
-      path: /CS70/
+      path: /MyNotes/
+      icon: fa-regular fa-book
+    About:
+      path: /uncategorized/intro
+      icon: fa-regular fa-circle-info
+
     # Archives: 
     #   path: /archives 
     #   icon: fa-regular fa-archive # can be empty

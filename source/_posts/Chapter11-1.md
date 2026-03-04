@@ -1,5 +1,5 @@
 ---
-title: Chapter11-1
+title: 第十一章 级数-1
 date: 2026-03-03 21:25:18
 categories: Calculus
 mathjax: true
