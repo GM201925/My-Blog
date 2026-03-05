@@ -1,7 +1,11 @@
 ---
 title: About Me
 date: 2026-03-04 15:23:57
-tags:
+sticky: 999
+excerpt: "这篇文章是对我的网站的基本介绍，Read it first!"
+banner: false
+
+thumbnail: http://www.lingganjia.com/images/picture/105018.jpg
 ---
 欢迎来到我的个人网站，这篇文章可以在导航栏的ABOUT中找到，主要是介绍这个网站的各种内容
 

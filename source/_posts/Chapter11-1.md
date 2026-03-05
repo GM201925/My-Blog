@@ -3,6 +3,7 @@ title: 第十一章 级数-1
 date: 2026-03-03 21:25:18
 categories: Calculus
 mathjax: true
+excerpt: "暂时停止Calculus的更新……写起来太麻烦了"
 ---
 
 ## 数项级数的基本概念

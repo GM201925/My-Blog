@@ -3,6 +3,7 @@ title: CS70 Note02
 date: 2026-03-03 16:52
 categories: 'CS70 Notes'
 mathjax: true
+excerpt: "对应CS70的2026 Spring的Note02"
 ---
 
 

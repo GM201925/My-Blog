@@ -221,7 +221,9 @@ navbar:
     About:
       path: /uncategorized/intro
       icon: fa-regular fa-circle-info
-
+    Sharing:
+      path: /categories/Sharing
+      icon: fa-regular fa-pen-fancy
     # Archives: 
     #   path: /archives 
     #   icon: fa-regular fa-archive # can be empty
