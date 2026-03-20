@@ -11,7 +11,7 @@
 # Docs: https://redefine-docs.ohevan.com/basic/info
 info:
   # Site title
-  title: My Notebook
+  title: Fuyukawa's Notebook
   # Site subtitle
   subtitle: Welcome!
   # Author name
@@ -102,7 +102,7 @@ global:
     image: /images/redefine-og.webp  # default og:image
     description: Hexo Theme Redefine, Redefine Your Hexo Journey.
   # Google Analytics
-  google_analytics:
+https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400&display=swap  google_analytics:
     enable: false # Whether to enable Google Analytics
     id:  # Google Analytics Measurement ID
 # SITE CUSTOMIZATION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
@@ -112,7 +112,7 @@ global:
 # Docs: https://redefine-docs.ohevan.com/basic/fontawesome
 fontawesome: # Pro v6.2.1
   # Thin version
-  thin: false
+  thin: falsej
   # Light version
   light: false
   # Duotone version
@@ -121,7 +121,6 @@ fontawesome: # Pro v6.2.1
   sharp_solid: false
   regular: true
 # FONTAWESOME <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end
-
 
 # HOME BANNER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> start
 # Docs: https://redefine-docs.ohevan.com/home/home_banner
@@ -327,14 +326,14 @@ articles:
       light: github # light mode theme, support: github, atom-one-light, default
       dark: vs2015 # dark mode theme, support: github-dark, monokai-sublime, vs2015, night-owl, atom-one-dark, nord, tokyo-night-dark, a11y-dark, agate
     font: # Custom font
-      enable: false # Whether to enable
-      family: # Font family
-      url: # Font URL to CSS file
+      enable: true # Whether to enable
+      family: 'Roboto Mono' # Font family
+      url: 'https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400&display=swap' # Font URL to CSS file
   # Table of contents settings
   toc:
     enable: true # Whether to enable TOC
     max_depth: 5 # TOC depth
-    number: true # Whether to add number to TOC automatically
+    number: false # Whether to add number to TOC automatically
     expand: true # Whether to expand TOC
     init_open: true # Open toc by default
   # Whether to enable copyright notice
@@ -425,13 +424,14 @@ footer:
   # Show website running time
   runtime: true # show website running time or not
   # Icon in footer, write fontawesome icon code here
-  icon: '<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>'
+  icon: '<i class="fa-solid fa-snowflake" style="color: rgb(116, 192, 252)"></i>' 
+  # '<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>'
   # The start time of the website, format: YYYY/MM/DD HH:mm:ss
   start: 2026/3/3 16:00:00
   # Site statistics
   statistics: true # show site statistics or not (total articles, total words)
   # Footer message
-  customize: "感谢阅读，希望对你有所帮助"
+  customize: "真理只在大炮射程之内"
   # ICP record number. See https://beian.miit.gov.cn/
   icp:
     enable: false # Whether to enable
