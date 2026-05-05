@@ -331,3 +331,185 @@ G=6+2+2=10,GN=13
 如果算非门，非门是共享的，即一个变量的非用一个非门即可，比如$\bar{A}B+\bar{A}C$,L=4,G=6,GN=6+1=7
 ![](/img/LCDF/LCDF-chapter2-7.png)
 上面这种算法可以总结成数完L后，按计算顺序，出一个结果就+1，如上式先算$\bar{A}\bar{C}$,+1,又算$AC$,+1,又算这两者或,+1,又算$B+\bar{D}$,出一个结果,+1,最后算两个括号与,出一个结果输出出去了，不算,共+4
+
+### 6.3 Karnaugh Maps
+1. 写成SOM或POM的形式，一般我们都写成SOM
+2. 对于SOM，在对应的最小项的格子里写1
+3. 开始圈1，用尽可能少的圈去圈尽可能多的相邻的1，圈内不能有0，圈的大小为2的幂次，如2，4，8
+4. 化简，一般留下不变的那个项
+![](/img/LCDF/LCDF-chapter2-8.png)
+这张图解释了卡诺图的原理
+
+![](/img/LCDF/LCDF-chapter2-9.png)
+圈一定要尽可能多圈1，否则没法化到最简，还要手工再用定律去化简。
+
+来看一道例题
+![](/img/LCDF/LCDF-chapter2-10.png)
+首先中间四个直接圈在一起，接下来3,4,9,14分别再用一个大小为2的圈圈起来
+化简，找每个圈中不变的那个变量
+5,7,13,15:$XZ$
+4,5: $\overline{W}X\overline{Y}$
+3,7: $\overline{W}YZ$
+13,9: $W\overline{Y}Z$
+14,15: $WXY$
+结果为$XZ+WXY+W\overline{Y}Z+\overline{W}YZ+\overline{W}X\overline{Y}$
+等等，好像有些不对啊~
+将$XZ$通过乘的方式补上$W,Y$刚好有四项，每一项都会被$WXY+W\overline{Y}Z+\overline{W}YZ+\overline{W}X\overline{Y}$中的一个吸收掉
+所以$XZ$是冗余的
+
+为什么呢？画圈本质上就是把这2/4/8项弄到一起化简，画的圈可以有重叠部分是因为$A=A+A$，可以凭空或一个出来，我们看到对于边上的四个小圈，它们两两一起后1就被圈完了，这时还想凑中间四个，那就要再额外或上5,7,13,15的最小项
+
+也就是说，原本是3+4+5+7+9+13+14+15
+为了化简这五个圈，变成
+3+4+5+7+9+13+14+15+5+7+13+15
+即
+(4+5)+(3+7)+(9+13)+(14+15)+(5+7+13+15)
+可见5,7,13,15根本没必要再多加，如果加了，最后就不是最简，会有冗余项
+
+**所以我们得到另一个原则：要用尽可能少的圈圈尽可能多的1，也就是圈最好大一些，但是如果一个圈内的所有1都被别的圈圈过了，那么这个圈就没必要化简了**
+
+### 6.4 Don't Cares in K-Maps
+Don't Cares:输入中不可能出现的(最小)项
+对于这些项，它们的结果可以是1，也可以认为是0，因为根本不会出现在输入中
+例如，函数F表示BCD码是否超过5，超过5时F的值为1
+F(w,x,y,z)如w=x=y=0,z=1,即BCD码0001,即1
+F=0
+那对于1111的输入，F可以是1也可以是0，因为根本就不会有这个输入
+如果我认为1111的输入F=1，那么wxyz就可以写进F的最小项之和中，这可以帮助我们化简
+
+![](/img/LCDF/LCDF-chapter2-11.png)
+注意圈X时不要上头，我们的任务只是用尽可能少的圈把1圈完，圈完1后就把剩下的X看作0，所以说如果你的一个圈中的所有1都被别的圈圈了，说明这些1都已经跟别人凑好化简掉了，那这个圈就是无效的
+
+卡诺图也有一些缺陷，比如它的化简结果不是唯一的，为什么呢？后面的算法我们会介绍
+
+### 6.5 Quine-McCluskey Algorithm
+***Implicant***: a product that implies the function is true.
+e.g. $F=AB+AC$,AB and AC are two implicants.Of course ABC is also a implicant.
+因为AB对应到卡诺图上其实是111和110两个格
+卡诺图中，只要是大小为2的幂次的，圈内都为1的圈都是implicant
+
+***Prime Implicant***: a product term obtained by combining the maximum possible number of adjacent squares in the map with $2^n$ number of squares.
+
+也就是我们之前提到的“尽可能大的圈”，如$F=AB+AC$中，ABC是implicant但不是prime implicant，画出卡诺图可知AB是prime implicant，它由含两个1的圈化简得到，AC也是prime implicant
+
+***Essential Prime Implicant***: a prime implicant that covers one or more minterms that no combination of other prime implicants are able to include.
+
+也就是我们之前说的，你这个圈里的1不能全被其他圈圈过了。如果这个prime implicant有“独属于自己”的1，那就是essential prime implicant
+
+![](/img/LCDF/LCDF-chapter2-12.png)
+
+***Quine-McCluskey Algorithm***
+- Find all prime implicants.
+- Include all essential prime implicants in the solution.
+- Select a minimum cost set of non-essential prime implicants to cover all minterms not yet covered
+
+这跟我们之前说的是对应的
+先找主蕴含项->用尽可能少的圈把1全都圈起来
+当然这里“尽可能少”一方面是说圈要大(prime implicants),另一方面是说不要重叠太多(其实对应第三步，用尽可能少的非essential主蕴含项把剩下的最小项给覆盖)
+
+保留essential prime implicants->只留下那些圈内有一些1是自己独有的圈(其实这也对应第三步，因为第三步选剩下的非必要主蕴含项时，有些可能重叠的太多，就不要了)
+
+![](img/LCDF/LCDF-chapter2-13.png)
+最后选择的部分，也可以选第二列下面的1和x，所以说结果不是唯一的
+
+### 6.6 Multi-Level Circuit Optimization
+最后，我们还可以对卡诺图得到的结果进行进一步代数变形，从而减少门输入代价
+![](img/LCDF/LCDF-chapter2-14.png)
+![](img/LCDF/chapter2-15.png)
+
+# 7 Other Gate Types
+Why?
+- Implementation feasibility and low cost 
+- Power in implementing Boolean functions 
+- Convenient conceptual representation 
+![](img/LCDF/chapter2-16.png)
+从上到下是
+2-2 AOI(2个 2输入与门 → 1个或非门,2-2分别表示与门的输入个数，都是2，如3-2-2 AOI就是三个与门，输入个数分别为3，2，2)
+2-2 OAI
+2-2 AO
+2-2 OA
+XOR和XNOR都有交换律、结合律，利用这个性质，给一些数，其中只有一个数字只出现一次其他都出现两次，我们可以这样找到那个只出现一次的数
+```Pseudocode
+Function Singular(int a[], int Count)   
+  value = 0  
+  for i = 0, Count-1  
+    value = value ⊕ a[i]  
+  return value
+```
+
+## 7.1 Odd and Even Functions
+如果超过两个变量异或起来，就构成了奇函数，卡诺图无法化简
+- The 1s of an odd function correspond to minterms having an index with an odd number of 1s. 
+- The 1s of an even function correspond to minterms having an index with an even number of 1s.
+
+这是好理解的，因为如果变量输入中有偶数个1，最后一定是0，有奇数个1，最后异或起来一定是1
+
+![](img/LCDF/chapter2-17.png)
+可以使用奇函数为一个编码生成偶校验位，比如输入n位，如果有奇数个1，那么输出1，这时这n+1个bit就有偶数个1。
+
+而验证时，将这n个bit输入到奇函数中，检验是否有偶数个1，如果有则输出0，说明没有出现Error
+
+# 8 About Electric Circuits
+一些电路的内容，具体原理会不会日后补充，以后再说（
+下面内容来自蔡老师的ppt以及ai的回答，可能存在疏漏或错误
+
+## 8.1 Buffer
+A buffer is an electronic amplifier used to improve circuit voltage levels and increase the speed of circuit operation. 
+The buffer is a gate with the function F = X 
+
+{% callout info::Learn From AI %} 
+每个逻辑门的输出端最多只能驱动一定数量的其他逻辑门（这个极限叫扇出系数，比如普通 TTL 门的扇出系数约为 8）。如果超过这个极限：
+- 信号会变弱，高低电平不再标准（比如高电平从 3.3V 变成 2V，被后级误判为 0）
+- 信号会变慢，上升沿和下降沿变得很陡，导致时序错误
+- 严重时会烧坏前级的逻辑门
+这时候就需要在中间加一个 buffer，把信号 "放大" 一下，让它能驱动更多的负载。
+{% endcallout %}
+
+## 8.2 Wired Output
+目前我们介绍过的逻辑门的输出绝对不能直接连在一起！
+如图，如果一个是低电压，一个输入高电压，那么右边的就会导通到左边的地，中间没有电阻，直接短路。
+当然，严格来说这不是推挽电路，也不是RTL，是一种奇怪的简化版非门。
+关于RTL,TTL,CMOS后面会介绍
+![](img/LCDF/chapter2-18.png)
+![](img/LCDF/chapter2-19.png)
+
+**推挽电路(Push-Pull Circuit)** 是一种常见的电路配置，主要用于信号放大和驱动负载。其基本原理是使用两个不同极性的晶体管（如NPN和PNP）交替工作，一个在导通状态时，另一个处于截止状态，从而实现信号的放大和输出。
+
+### 8.2.1 The 3-State Buffer
+![](img/LCDF/chapter2-20.png)
+除了能输出 0 和 1 之外，还能输出第三种状态：高阻态（High-Impedance，简称 Hi-Z 或 Z）。输出高阻态时buffer内部导线断开。
+如上张图所示，有了三态门之后，我们就可以让多个逻辑门的输出连到总线上，只要给他们都加一个三态门来控制就好了。
+- The output of 3-state buffers can be wired together 
+- At most one 3-state buffer can be enabled. Resolved output is equal to the output of the enabled 3-state buffer 
+- If multiple 3-state buffers are enabled at the same time 
+then conflicting outputs will burn the circuit
+
+总线就是一条所有设备共享的公共导线。计算机里的地址总线、数据总线、控制总线，本质上都是由三态缓冲器组成的。
+总线的工作规则（绝对不能违反）
+- 同一时间，只能有一个设备向总线发送数据
+- 这个发送数据的设备，必须打开自己的三态缓冲器（EN=1）
+- 其他所有不发送数据的设备，必须关闭自己的三态缓冲器（EN=0），进入 Hi-Z 状态
+- 多个设备可以同时从总线上接收数据
+
+## 8.3 RTL/TTL/CMOS
+Modern computers use transistors because they are cheap, small, and reliable. Transistors are electrically controlled switches that turn ON or OFF when a voltage or current is applied to a control terminal. 
+
+The two main types of transistors are bipolar junction transistors and metal-oxide-semiconductor field effect transistors (MOSFETs or MOS transistors)
+
+### 8.3.1 Bipolar Junction Transistors
+(这里找资料、问ai搞了好久破防了，简单总结一下吧。。。)
+三极管有三个极，base，emitter，collector；三极管分为NPN型和PNP型
+数字电路中只关心两种状态
+以NPN型为例，
+- 截止状态，b的电压不大于e，相当于c和e间断路
+- 饱和状态，b的电压大于e，一般是超过0.7V，直接看作“导通”，一般是c到e间短路
+当然还有倒置状态，下面会涉及，即b的电压不大于e，但b的电压大于c，这时bc可以导通
+![](img/LCDF/chapter2-21.png)
+万恶之源（
+我来试图解释一下这个TTL反相器的原理
+当输入为H时，b接VCC，e接H，截止，这时三极管截止。左边的三极管的c接到右边三极管的b，这其实是前级开关，去控制后级开关。
+b接VCC高电压，如果导通的话，bc间压降0.7V，右边三极管的be压降又是0.7V，最后b的电压就是1.4V，这是可以成立的，所以右边三极管处于饱和状态，ce间通，输出L
+
+当输入为L，左边三极管通，ce间通了，所以c的电势几乎为0，右边三极管截止，输出的电势几乎等于VCC，输出H
+
+当然这个TTL非门并不是推挽结构，可能是简化的

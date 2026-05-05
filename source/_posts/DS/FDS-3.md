@@ -598,3 +598,104 @@ ElementType Pop(STACK* p)
 记录栈顶的变量（TopOfStack，对应教材里的 top_of_stack）。
 除了这些函数之外，其他任何代码（比如你的主函数 main、或者其他业务逻辑函数），都绝对不能直接去读写这两个变量。
 
+## 3.3 Infix to Postfix
+```c
+/*摘自project 2*/
+// Converts a sequence of infix tokens into postfix.
+// This uses an algorithm that we have learnt in fds.
+//
+// Args:
+//   infix_tokens: The original array of tokens in natural order.
+//   infix_count: The total number of tokens in the infix array.
+//   postfix_tokens: The target array to store converted(postfix) tokens.
+//   postfix_count: Pointer to track the number of tokens in the output array.
+void infix_to_postfix(Token* infix_tokens, int infix_count, Token* postfix_tokens, int* postfix_count) 
+{
+    TokenStack op_stack;
+    op_stack.top = -1; // Initialize the stack as empty.
+    int p_count = 0;
+
+    for (int i = 0; i < infix_count; i++) 
+    {
+        Token cur = infix_tokens[i];
+        // Operands (numbers and variables) are written directly to the postfix_tokens.
+        if (cur.type == token_const || cur.type == token_variable) 
+        {
+            postfix_tokens[p_count++] = cur;
+        } 
+
+        // Function names are always pushed onto the stack.
+        else if(cur.type == token_function)
+        {
+            push_token(&op_stack,cur);
+        }
+
+        // If '(' is not in the stack, it has the highest precedence. So just push it in.
+        else if (cur.str_value[0] == '(') 
+        {
+            push_token(&op_stack, cur);
+        } 
+
+        // Right bracket: pop all ops until the matching '(' is found.
+        else if (cur.str_value[0] == ')') 
+        {
+            while (peek_token(&op_stack).str_value[0] != '(') 
+            {
+                postfix_tokens[p_count++] = pop_token(&op_stack);
+            }
+            pop_token(&op_stack); // Don't forget to pop '('
+
+            // If the parentheses were part of a function call, pop the function token.
+            // e.g. ln(5+x) -> 5 x + ln
+            if(!is_Tokenstack_empty(&op_stack) && peek_token(&op_stack).type == token_function)
+            {
+                postfix_tokens[p_count++] = pop_token(&op_stack);
+            }
+        }
+
+        // Comma: effectively closes the current sub-expression inside a function. Pop all ops until the matching '(' is found, but don't pop '('
+        // e.g. log(2+y,x) -> 2 y + x log
+        else if(cur.type == token_operator && cur.str_value[0] == ',')
+        {
+            while (peek_token(&op_stack).str_value[0] != '(') 
+            {
+                postfix_tokens[p_count++] = pop_token(&op_stack);
+            }
+        } 
+        else if (cur.type == token_operator) 
+        {
+            if(cur.str_value[0] == '^')
+            {
+                // '^' is special. Because it's calculated from right to left, the precedence of the top operator must be higher than the current operator.
+                // e.g. 3^2^5 -> 3 2 5 ^ ^
+                while (!is_Tokenstack_empty(&op_stack) && 
+                   peek_token(&op_stack).str_value[0] != '(' &&
+                   get_priority(peek_token(&op_stack)) > get_priority(cur)) 
+                {
+                    postfix_tokens[p_count++] = pop_token(&op_stack);
+                }
+            }
+            else
+            {
+                // Comparison of priorities to determine which operator executes(pop) first.
+                // Notice that when '(' is the top element, its precedence is absolutely lower than the current operator.
+                while (!is_Tokenstack_empty(&op_stack) && 
+                   peek_token(&op_stack).str_value[0] != '(' &&
+                   get_priority(peek_token(&op_stack)) >= get_priority(cur)) 
+                {
+                    postfix_tokens[p_count++] = pop_token(&op_stack);
+                }
+            }
+            
+            push_token(&op_stack, cur);
+        }
+    }
+
+    // Pop any remaining operators from the stack to the output(postfix_tokens).
+    while (!is_Tokenstack_empty(&op_stack)) 
+    {
+        postfix_tokens[p_count++] = pop_token(&op_stack);
+    }
+    *postfix_count = p_count;
+}
+```
