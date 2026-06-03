@@ -109,7 +109,7 @@ void Unweighted(Table T) {
      - 对 $u$ 的每个邻接点 $v$，更新 `distance[v] = min(distance[v], distance[u]+c(u,v))`。
 
 **证明**
-假设选择 $u$ 加入 $S$ 时，`distance[u]` 不是 $s$ 到 $u$ 的最短路径长度。那么存在一条更短的路径 $s \to \dots \to w \to \dots \to u$，其中 $w$ 不在 $S$ 中。此时 `distance[w] < distance[u]`，与"$u$ 是不在 $S$ 中距离最小的顶点"矛盾。因此贪心选择是正确的。
+假设选择 $u$ 加入 $S$ 时，`distance[u]` 其实不是 $s$ 到 $u$ 的最短路径长度。那么存在一条更短的路径 $s \to \dots \to w \to \dots \to u$，其中 $w$ 不在 $S$ 中，否则这条路径长度肯定小于等于 `distance[u]`。此时 `distance[w] < distance[u]`，与"$u$ 是不在 $S$ 中距离最小的顶点"矛盾。因此贪心选择是正确的。
 
 **伪代码实现**
 ```c
@@ -318,3 +318,56 @@ void Dijkstra_PriorityQueue(Graph *G, Vertex start, Table T) {
     }
 }
 ```
+更新时，我们把更新后的元素插入到堆中，最多可能要更新$\mid E\mid$次，每次插入需要$O(log k),k$为堆中元素个数，由于Dijkstra算法对于每条边只会插入堆一次，所以堆中元素最多$\mid E\mid$个，而$E\le V^2, log|E| ≤ log|V|² = 2log|V| = O (log|V|)$，故总时间复杂度为$O(\mid E\mid log V)$
+
+# 3 Graph With Negative Edge Costs
+```c
+void WeightedNegative(Table T) {
+    Queue Q;
+    Vertex V, W;
+    Q = CreateQueue(NumVertex);
+    MakeEmpty(Q);
+    Enqueue(S, Q);
+
+    while (!IsEmpty(Q)) {
+        V = Dequeue(Q);
+        for (each W adjacent to V) {
+            if (T[V].Dist + Cvw < T[W].Dist) {
+                T[W].Dist = T[V].Dist + Cvw;
+                T[W].Path = V;
+                if (W不在队列中) {
+                    Enqueue(W, Q);
+                }
+            }
+        }
+    }
+    DisposeQueue(Q);
+}
+```
+该算法(SPFA)的思路是，从源点开始，每次检查所有边需不需要更新，核心就在于负权边并不是像Dijsktra算法一样当前最短就能直接视为最短路径了，每次更新都要检查，SPFA 的队列允许一个人反复进出。只要你拿到了更短的距离，不管你之前进过几次队列，你都可以重新排队
+
+![](img/DS/9-4.png)
+如上图，左边的图中，A先入队，然后出队，更新A到C是3，A到B是2，按Dijkstra算法，B就会被认为已经找到了最短路径。
+接下来B,C入队，B出队，没有能到达的，C出队，D入队，A到D更新成-3，D出队，更新A到B是-5，B入队；B出队，没有更新的，队空，结束。这时A到B,C,D的最短路是-5，3，-3，正确！
+
+而上图右边的图，A先入队，然后出队，C入队；C出队，D入队；D出队，B入队；B出队，A入队……循环不会停止
+
+怎么避免这种循环不停的情况呢？一条非环的最短路径最多V-1条边，对于一个顶点B，从A到B最多V-1条边，每次更新相当于在原有的路上又多加了一条边，所以一个顶点最多入队V-1次，若入队V次说明有环，如果是0或正的环，不会入队的，所以一定是负权环，所以只需要记录每个顶点入队次数就可以检验
+
+每个顶点最多入队V次（为了检验负权环情况，最多V次），时间复杂度为$O(VE)$
+
+# 4  Acyclic Graphs & AOE
+If the graph is directed and acyclic, vertices may be selected in topological order since when a vertex is selected, its distance can no longer be lowered without any incoming edges from unknown nodes.
+
+对于有向无环图，按拓扑排序去遍历，到某个顶点时，指向这个顶点的路径已经“没”了，所以此时的dist就是最小的了
+1. 计算所有顶点的入度。   
+2. 将入度为 0 的顶点放入队列。   
+3. 取出顶点 $V$，遍历其邻居 $W$：更新距离：if (dist[V] + Cvw < dist[W]) dist[W] = dist[V] + Cvw;   
+4. 将 $W$ 的入度减 1，若减为 0 则将 $W$ 入队。
+
+## 4.1 AOE
+![](img/DS/9-5.png)
+假设有这么一个项目，边称作活动，顶点称作事件，每个事件必须在前一个指向它的事件做完后才可以开始做，求完成这个项目的最短时间
+活动可以同时进行，所以时间取决于最耗时的那条路，称作**关键路径**
+**关键活动**：不能拖延的活动，即该活动的最早开始时间和最晚开始时间一样
+我们先看0到4，上面那条路要7，下面是5，所以上面那条路是关键路径，而活动1的最早开始时间当然是第0天，最晚开始时间是第2天，因为这样2+4+1=7刚好跟上面的路同步完成。或者说，事件2的最早完成时间是第4天，最晚完成时间是第6天

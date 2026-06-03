@@ -220,7 +220,17 @@ party are friends or enemies.
 
 
 # 3 Permutations and Combinations
+A combinatorial proof of an identity is a proof that  uses one of the following methods.
 
+A double counting proof uses counting arguments to prove that both sides of an identity count the same objects, but in different ways.
+
+A bijective proof  shows  that there is a bijection between the sets of objects counted by the two sides of the identity
+
+**Pascal’s Identity Let n and k be positive integers with $k\le n$. Then**
+$$C_{n+1}^k = C_n^{k-1}+C_n^k$$
+
+**Vandermonde’s Identity**
+$$C_{m+n}^r = \sum_{k=0}^r C_m^{r-k}C_n^k$$
 # 4 Generalized Permutations and Combinations
 
 ## 4.1 r-permutation with repetition 
