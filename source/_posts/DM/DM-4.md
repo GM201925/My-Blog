@@ -49,7 +49,7 @@ $H_1=1$，两边同时+1即可解得$H_n = 2^n-1$
 如果结尾是10，那么只有$a_{n-2}$个
 
 这已经涵盖了所有情况，因为末两位只能是11，10，01
-$$a_n = a_{n-1} + a_{n-2}, n\le 3$$
+$$a_n = a_{n-1} + a_{n-2}, n\ge 3$$
 $a_1 = 2,a_2=3$
 
 # 2 Solving Linear Recurrence Relations 
@@ -97,7 +97,7 @@ $$G(x)=1+x+x^2+...=\sum_{k=0}^\infty x^k = \frac{1}{1-x} $$
 {% callout primary::Example %} 
 【1】What is the generating function for the sequence 0,1,2,3,4,...
 
-$$G(x) = \sum_{k=0}^\infty kx^k = x\sum_{k=1}^\infty kx^{k-1} = x(\frac{1}{1-x})' = \frac{x}{(1-x)^2}$$
+$$G(x) = \sum_{k=0}^\infty kx^k = x\sum_{k=1}^\infty kx^{k-1} = x(\frac{x}{1-x})' = \frac{x}{(1-x)^2}$$
 
 【2】Suppose that the generating function of the sequence: $a_0,a_1,,...,a_n,...$ is  G(x). What is the generating function for the sequence $b_k = \sum_{i=0}^k a_i$
 
@@ -216,3 +216,9 @@ $$G(x)=1+(x+x^2+x^5)+(x+x^2+x^5)^2+(x+x^2+x^5)^3+...=\frac{1}{1-x-x^2-x^5}$$
 而fish和bird不能同时出现，rat和bird不会同时出现（都有r），这三个也不会同时出现
 所以答案为26!-(23!+24!+23!-21!-0-0+0)
 {% endcallout %}
+
+# 8 Applications of Inclusion-Exclusion 
+竟然漏了这一节
+![](img/DM/4-18.png)
+![](img/DM/4-19.png)
+![](img/DM/4-20.png)

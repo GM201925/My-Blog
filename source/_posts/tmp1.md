@@ -36,3 +36,176 @@ IPV6由8组四位十六进制数组合而成，正在慢慢取代IPV4
 总结一下，arp协议只在局域网内起作用，通过IP地址找到同一网络内设备的MAC地址，如果要跨网络，要把信息交给网关，例如上面提到的A电脑发给8.8.8.8，arp这时就会问网关的MAC地址，发送出去的信息包含网关的MAC地址和最终目的地IP地址(8.8.8.8).
 交换机看到目标MAC是网关，就根据MAC地址表，从连接网关那个物理口送出去。
 网关路由器：收到后拆开，看到目标IP是 8.8.8.8，就开始用路由表在互联网上转发。同时执行NAT，把源IP从 192.168.0.1 换成公网IP 6.6.6.6
+
+## Linux-Managing Users
+```bash
+sudo useradd username
+```
+
+```bash
+cat /etc/passwd
+```
+我们可以通过这个文件了解系统都有哪些用户，每一行是类似
+``roland:x:1000:1000:Roland,,,:/home/roland:/bin/bash``
+的输出，第一个1000是uid，一般小于1000的uid是系统用户，使用之前的命令添加一个普通用户账户
+
+删除用户
+```bash
+sudo userdel username
+```
+
+添加用户时，我们希望把它添加到home目录里，即拥有一个home/username
+```bash
+sudo useradd -m username
+```
+删除用户，同时删除它的home directory
+```bash
+sudo userdel -r username
+```
+
+新添加的用户没有密码
+```bash
+passwd #修改当前用户的密码
+
+sudo passwd username #修改其他用户的密码
+```
+
+**创建系统用户**
+系统用户用于在后台运行任务，无法登录
+```bash
+sudo useradd -r username
+```
+
+**Etsy Password File**
+``roland:x:1000:1000:Roland,,,:/home/roland:/bin/bash``
+第一列是用户名，第二列x代表加密的密码，第三列是uid，第四列是gid，即组id，下一列是用户信息，然后是主目录(home directory)，``/bin/bash``代表的是该用户登录时使用的shell
+
+```bash
+sudo cat /etc/shadow | grep roland
+
+roland:$y$j9T$AAy/ae/XdhQYM5RvDk5hd/$rPiM7PLECfXDItKhdsrsjTjPdRSrt7jKwbR6CkVKBE.:20604:0:99999:7:::
+```
+第二列是加密的密码，第二列是上次更改密码的时间（自1970.1.1算起过了多少天），第三列是距离下次可以更改密码还有多少天，第四列是还有多少天密码过期，第五列是距离密码过期还剩多少天时会在shell提醒
+
+## File Permissions
+linux系统的文件或文件夹的权限，有owner的权限，即这个文件属于谁，有group的权限，即这个文件属于哪个组，还有其他权限，即所有其他用户都有的权限
+
+```bash
+drwxrwxr-x 3 roland roland 4096 May 31 06:17 test
+-rw-rw-r-- 1 roland roland    6 May 31 06:19 text_1.txt
+```
+d代表文件夹，如果是文件，则是-
+第一个rwx代表owner的权限，可以读，可以写，可以运行(对文件是运行，对文件夹是能列出文件夹内容)
+第二个rwx代表group，即组里的用户都有rwx权限
+其他所有用户可以read，execute
+
+```bash
+sudo chown newowner filename
+sudo chown newowner:newgroup filename
+
+```
+r=4,w=2,x=1
+```bash
+sudo chmod 774 text_1.txt
+
+-rwxrwxr-- 1 roland roland    6 May 31 06:19 text_1.txt
+```
+
+## Environment Variables
+In Linux and Unix-based systems, environment variables are dynamic named values stored within the system that are used by applications launched in shells or subshells. In simple terms, an environment variable is a variable with a name and an associated value.
+
+
+|Task|Command|
+|:-:|:-:|
+|List all environment variables|``printenv`` or ``env``|
+|Print a specific variable|``printenv HOME`` or ``echo $HOME``|
+|Set a shell variable|``MY_VAR="value"``|
+|Set an environment variable|``export MY_VAR="value"``|
+|Remove a variable|``unset MY_VAR``|
+|Add to PATH|``export PATH="$HOME/bin:$PATH"``|
+|List all variables and functions|``set``|
+|Make variable persistent|Add it to your shell startup file such as ``~/.bashrc``, ``~/.zshrc``, or ``~/.profile``|
+|Reload config after changes|``source ~/.bashrc`` or ``source ~/.zshrc``|
+
+**Environment Variables and Shell Variables**
+变量的格式
+```
+KEY=value
+KEY="Some other value"
+KEY=value1:value2
+```
+- The names of the variables are case-sensitive. By convention, environment variables should have UPPER CASE names.
+- When assigning multiple values to the variable, they must be separated by the colon : character.
+- There is no space around the equals = symbol.
+
+Variables can be classified into two main categories: environment variables and shell variables.
+
+**Environment variables** are variables that are available system-wide and are inherited by all spawned child processes and shells.
+
+**Shell variables** are variables that apply only to the current shell instance. Each shell such as zsh and bash, has its own set of internal shell variables.
+
+``env`` – The command allows you to run another program in a custom environment without modifying the current one. When used without an argument it will print a list of the current environment variables.
+``printenv`` – The command prints all or the specified environment variables.
+``set`` – The command sets or unsets shell variables. When used without an argument it will print a list of all variables including environment and shell variables, and shell functions.
+``unset`` – The command deletes shell and environment variables.
+``export`` – The command sets environment variables.
+
+
+``printenv``能展示环境变量，如果带参数只会展示那个变量的值
+```bash
+roland@debian:~$ printenv HOME
+/home/roland
+```
+
+**Setting Environment Variables**
+创建一个shell variable
+```bash
+MY_VAR='Hello'
+```
+但这并不是环境变量
+```bash
+roland@debian:~$ MY_VAR='Hello'
+roland@debian:~$ printenv MY_VAR
+roland@debian:~$ export MY_VAR
+roland@debian:~$ printenv MY_VAR
+Hello
+
+# 也可以
+export MY_NEW_VAR="My New Var"
+
+unset MY_VAR # 移除环境/shell变量
+```
+
+**PATH**
+PATH - A list of directories to be searched when executing commands. When you run a command the system will search those directories in this order and use the first found executable.
+```bash
+echo $PATH
+
+export PATH="$HOME/bin:$PATH"
+# This prepends $HOME/bin to the beginning of PATH, so executables in that directory will take priority.
+
+export PATH="$PATH:/opt/myapp/bin"
+# To append a directory to the end of PATH
+```
+
+**Persistent Environment Variables**
+想让变量在你每次登录时都自动生效，就需要把 export 命令写入 Shell 的启动配置文件中。
+
+按作用范围划分：
+
+所有用户（系统级）：
+
+/etc/environment：存放简单键值对，不支持 export 命令语法，由 PAM 读取。
+
+/etc/profile：在登录 Shell 时执行，需要用 export。
+
+/etc/profile.d/*.sh：存放独立脚本，由 /etc/profile 调用。
+
+当前用户（用户级）：
+
+~/.bashrc：最常用，适用于交互式非登录 Shell（如图形界面打开的终端）。
+
+~/.profile 或 ~/.bash_profile：适用于登录 Shell（如通过 SSH 登录），通常设置全局环境变量
+```bash
+source ~/.bashrc   # 重新加载 ~/.bashrc 文件
+```

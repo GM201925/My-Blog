@@ -122,3 +122,54 @@ flip-flops (i.e., input equations and next state equations)
 6. Analyze the performance of the circuit 
 7. Verify the correctness of the circuit, check the self
 recovery capability and draw the timing parameters
+
+# 6 Other Flip-Flop Types
+## 6.1 J-K Flip-Flop
+![](img/LCDF/4-16.png)
+J=K=0，Q输入给D，保持不变
+J=K=1，Q'输入给D，结果取反
+J=0,K=1，使Q置为0
+J=1,K=0，使Q置为1
+
+## 6.2 T(Toggle) Flip-Flop
+令J=K=T，这样，T=0时保持，T=1时状态取反
+T触发器不能被初始化到一个已知的状态，因此，需要一个reset信号
+![](img/LCDF/4-17.png)
+
+# 7 Sequential Circuit Design
+## 7.1 Sequence Recognizer Example
+我们现在想设计一个能识别序列1101的数字系统
+例如输入11001101
+输出为00000001
+也就是对于t时刻，如果x(t-3,t)=1101，那么z(t)=1，否则为0
+
+时序电路设计的过程时先得到状态图，进一步得到状态表、激励表（类似$D_A=A(t+1)$）从而得到输入方程、输出方程
+![](img/LCDF/4-18.png)
+我们就从正确序列1101开始设计，假定A是个初始状态，也就是刚开始识别接下来的4个数字，如果输入是1，那么输出0，来到B状态，如果B状态接受的输入为1，那么输出0，来到C状态，如果C接受0，输出0，来到D，如果D接受输入1，那么输出1（已识别1101），回到哪个状态呢？
+
+这时相当于重新开始识别，但要注意，D状态接受的1完全可以作为下一个1101的开始，例如输入为1101101，所以到B状态
+
+接下来补充其他情况
+![](img/LCDF/4-19.png)
+输出取决于状态和输入，属于Mealy型，我们也可以改变成Moore型
+从上图改起，注意到状态A总是输出0，B总是输出0，C总是输出0
+但是D有些特殊，输出并不只取决于状态
+所以我们需要一个新的状态E，它和D很像，这个状态下会输出1，也就是D得到1转变到E状态，和原来一样，D得到0回到A状态，但这时问题在于，原来D得到1会输出1的同时回到B，现在它只是转到E状态，接下来怎么办呢
+
+假设我们已经得到了1101，接下来如果是1，接着开始记，这时**已经记了11了**，所以到B状态，如果接下来是0，即11010，那么废了，重新开始，回到A状态
+
+这与米勒型不同，米勒型输入和状态决定输出，所以D后如果输入为1，直接输出1，且此时已经开始下一次记录了（第一个1），所以到B，D后如果输入为0，废了并且从头开始，输出0回到A
+
+但摩尔型就不能这样，因为新增一个专门输出1的状态E，如果D得到输入1，会进入E状态，这时其实E就是B的状态，如果下一个是1，继续，到C，如果是0，从头开始，到A
+![](img/LCDF/4-20.png)
+
+Equivalent States: Assume S1 and S2 are two states in the complete state table, and begin with S1 and S2, if we have exactly same output sequence and the same next states (or next states are interleaved/circulated) for any input sequence, S1 and S2 are called equivalent states, denoted (S1, S2). 
+等价的状态可以合并
+
+**State Assignment Method**
+我们要给每个状态编码，可以选格雷码，独热码等等
+![](img/LCDF/4-21.png)
+这里D的方程就是输入方程，Y的方程就是输出方程，实际上，这个问题中用格雷码门输入代价最小
+
+最后使用Map Technology得到实际电路
+![](img/LCDF/4-22.png)

@@ -167,7 +167,7 @@ $(a,x)\in T, (x,b)\in (P\circ U)$
 
 # 3 Closures of Relations
 {% callout success %} 
-The closure of a relation $$R$ with respect to property $P$ is the relation $S$ with property $P$ containing $R$ such that $S$ is a subset of every relation with property $P$ containing $R$. 
+The closure of a relation $R$ with respect to property $P$ is the relation $S$ with property $P$ containing $R$ such that $S$ is a subset of every relation with property $P$ containing $R$. 
 {% endcallout %}
 就是包含$R$的具有性质$P$的最小的关系
 
@@ -303,7 +303,7 @@ A  partition of set A is a collection of disjoint nonempty subsets of A that hav
 若$R_1,R_2$是作用于A的等价关系，那么$(R_1\cup R_2)^*$是等价关系
 {% endcallout %}
 前两个定理读者可以自己证明。
-对于第三个定理的传递性，若 $(x,y) \in R^*$ 且 $(y,z) \in R^*$，则存在 $m,n$ 使得 $(x,y) \in R^m$，$(y,z) \in R^n$。由复合定义得 $(x,z) \in R^m \circ R^n = R^{m+n} \subseteq R^*$。所以 $R^*$ 是传递的，当然，由于本身是个传递闭包，所以当然具有传递性。 
+对于第三个定理的传递性，若 $(x,y) \in R^\*$ 且 $(y,z) \in R^\*$，则存在 $m,n$ 使得 $(x,y) \in R^m$，$(y,z) \in R^n$。由复合定义得 $(x,z) \in R^m \circ R^n = R^{m+n} \subseteq R^\*$。所以 $R^\*$ 是传递的，当然，由于本身是个传递闭包，所以当然具有传递性。 
 对于第三个定理的自反性，任意$a\in A,(a,a)\in R_1$，证明完毕
 对于第三个定理的对称性，任意$(a,b)\in (R_1\cup R_2)^*$，有$(a,b)\in (R_1\cup R_2)^m$，那么一定有从a到b的长度为m的路径，即$(a,x_1)\in (R_1\cup R_2), (x_1,x_2)\in (R_1\cup R_2), ... ,(x_{m-1},b)\in (R_1\cup R_2)$
 而$(R_1\cup R_2)$有对称性，证明完毕
