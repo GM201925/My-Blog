@@ -3,6 +3,8 @@ title: Chapter 10 - DFS & BFS
 date: 2026-05-15 16:24:53
 categories: Data Structure
 mathjax: true
+cover: img/test.png
+
 ---
 {% callout success %} 
 定义

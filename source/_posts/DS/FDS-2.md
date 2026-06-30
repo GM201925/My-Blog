@@ -3,6 +3,8 @@ title: Chapter 1 - Algorithm Analysis(b)
 date: 2026-03-11 17:43:10
 categories: Data Structure
 mathjax: true
+thumbnail: img/test.png
+
 ---
 {% callout success %} 
 定义
@@ -19,6 +21,13 @@ mathjax: true
 
 # 0 &nbsp;Solution to Exercise
 
+对于程序1，$i=0$，最内层语句执行0次，$i=1$，最内层语句执行1次，以此类推
+最内层语句执行$$1+2+...+n-1=O(n^2)$$
+
+对于程序2，注意第二层循环的条件，$i$必须在$0\le i \le n-1$时第二层循环内部的语句才会执行，且重复$n-i$次
+因此复杂度为$$n\sum^{n-1}_{i=0}(n-i)=O(n^3)$$
+对于$i$的其他取值，判断一下后不会执行内层循环，判断执行$n^3/2 - n$次
+故时间复杂度为O(n^3)
 # 1 &nbsp;Compare the Algorithms
 {% callout primary title="Problem" %}
 Given(possibly negative) integers $A_1,A_2...,A_n$,find the maximum value of $\sum\_{k=i}^jA_k$
@@ -153,7 +162,7 @@ int MaxSubSum(const int a[],int left,int right)
             max_left_border_sum = left_border_sum;
         }
     }
-    int border_sum = max_left_border_sum+max_right_border_sum;
+    int border_sum = max_left_border_sum + max_right_border_sum;
     
     return max(border_sum,max_left_sum,max_right_sum);
 
@@ -178,8 +187,8 @@ int MaxSubsequenceSum(const int a[],int n)
             thissum = 0;
             /*当前子列和为负数，那么再加上
             后面的部分和只会让后面的部分和更小
-            最大的情况只可能是后面的部分和
-            */
+            最大的情况只可能是后面的部分和*/
+
             /*
             例如3 -5 2 6先记录max是3，然后thissum
             变成-2，加上2没2大，+2+6没8大
@@ -195,6 +204,7 @@ $T(N)=O(N)$
 
 # 2 &nbsp;Logarithms in the Running Time
 Besides divide-and-conquer algorithms, the most frequent appearance of logarithms centers around the following general rule: An algorithm is O(log n) if it takes constant (O(1)) time to cut the problem size by a fraction (which is usually ). 
+
 On the other hand, if constant time is required to merely reduce the problem by a constant amount (such as to make the problem smaller by 1), then the algorithm is O(n)
 (From textbook)
 
@@ -225,7 +235,8 @@ If $n>m/2$,then $m/n=1$,the remainder must be $m-n<m/2$
 {% endcallout %}
 根据算法，两次循环后，m就会变为m%n，所以两次循环后m至少减半，而我们知道一旦开始循环，一次循环中，m的值就是上一次n的值
 如果k次循环后，循环结束之后m=1，说明这次循环n=1，那么余数(rem)一定是0，n变为0(rem)，算法停止
-$\frac{k}{2}=log_2m$
+m减半$\frac{k}{2}$次，那么$$\frac{m}{2^{\frac{k}{2}}}=1$$
+$$\frac{k}{2}=log_2m$$
 所以时间复杂度是$O(logn)$
 
 ## 2.3 Exponentiation

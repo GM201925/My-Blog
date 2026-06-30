@@ -431,7 +431,7 @@ footer:
   # Site statistics
   statistics: true # show site statistics or not (total articles, total words)
   # Footer message
-  customize: "真理只在大炮射程之内"
+  customize: "自卑者必自傲"
   # ICP record number. See https://beian.miit.gov.cn/
   icp:
     enable: false # Whether to enable

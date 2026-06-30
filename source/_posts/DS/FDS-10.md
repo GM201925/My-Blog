@@ -3,6 +3,8 @@ title: Chapter 9 - Network Flow & MST
 date: 2026-05-11 20:54:15
 categories: Data Structure
 mathjax: true
+cover: img/test.png
+
 ---
 {% callout success %} 
 定义
@@ -39,7 +41,7 @@ mathjax: true
 如图所示，每次找路径都会让流量至少增加1，所以至少找f次路径，每次找路径复杂度为$O(E)$ (一般使用DFS)，所以时间复杂度为$O(f\cdot E)$
 
 ## 1.2 Edmonds-Karp Algorithm
-找路径时把图看作无权图，使用BFS找最短路径，其他和上面的算法一样，找路径复杂度为$O(V+E)=O(E),(V-1\le E)$，可以证明最多循环$O(VE)$次
+跟上面相比只是规定了找路径的方式，从而得到找路径次数的上界。找路径时把图看作无权图，使用BFS找最短路径，其他和上面的算法一样，找路径复杂度为$O(V+E)=O(E),(V-1\le E)$，可以证明最多循环$O(VE)$次
 复杂度为$O(E^2V)$
 
 ```c

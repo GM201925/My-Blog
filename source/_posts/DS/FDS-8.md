@@ -3,6 +3,8 @@ title: Chapter 7 - Graph
 date: 2026-04-25 21:00:59
 categories: Data Structure
 mathjax: true
+thumbnail: img/test.png
+
 ---
 {% callout success %} 
 定义
@@ -35,7 +37,7 @@ mathjax: true
 对于$n$个顶点的无向完全图，有$C_n^2$条边
 
 {% endcallout %}
-无图中，两个顶点间有条边，称$v_i$ and $v_j$ are adjacent 
+无向图中，两个顶点间有条边，称$v_i$ and $v_j$ are adjacent 
 有向图中，从$v_i$指向$v_j$，称$v_i$ is adjacent to $v_j$ ; $v_j$ is adjacent from $v_i$ 
 
 **Degree(度)**: number of edges incident to v.For a directed G, we have in-degree and out-degree.

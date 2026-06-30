@@ -3,6 +3,7 @@ title: Chapter 1 - Algorithm Analysis(a)
 date: 2026-03-07 14:48:16
 categories: Data Structure
 mathjax: true
+thumbnail: img/test.png
 
 ---
 {% callout success %} 
@@ -89,8 +90,8 @@ float rsum(float list[],int n)
 每个rsum都有2次，直到第二个参数为0，共2n+2次，如n=2，2次(其实是先判断一次，然后进到rsum(1)，rsum(1)返回结果后有个return那才是第二次)到rsum(1)，再2次到rsum(0)，rsum(0)又有2次
 
 ## 1.3 Asymptotic(渐进的) Notation
-我们数一共执行了多少次语句，其实是想预测当n增长时，运行时间会如何增长，以此来比较两个程序的时间复杂度
-例如一个程序执行n^2次，另一个程序执行n+3次，当n=1,2时看上去第二个程序执行的次数更多，但对于足够大的n，第二个程序的执行次数更少，运行时间更短
+我们数一共执行了多少次语句，其实是想预测当$n$增长时，运行时间会如何增长，以此来比较两个程序的时间复杂度
+例如一个程序执行$n^2$次，另一个程序执行$n+3$次，当$n=1,2$时看上去第二个程序执行的次数更多，但对于足够大的n，第二个程序的执行次数更少，运行时间更短
 {% callout success::Definition %}
 如果存在正数c和n，使得当N>n时，$T(N)\le c\cdot f(N)$
 那么$T(N)=O(f(N))$
@@ -120,15 +121,19 @@ $log^kN=O(N)$
 void add(int a[][MAX],int b[][MAX],int c[][MAX],int rows,int cols)
 {
     for(int i = 0;i<rows;++i) 
-    //$\Theta(rows)(次？)$
+    // 1
     {
-        for(int j = 0;j<cols;++j) //$\Theta(rows\cdot cols)$
+        for(int j = 0;j<cols;++j) // 2
         {
-            c[i][j] = a[i][j] + b[i][j]; //$\Theta(rows\cdot cols)$
+            c[i][j] = a[i][j] + b[i][j]; // 3
         }
     }
 }
 ```
+1. $\Theta(rows)(次？)$
+2. $\Theta(rows\cdot cols)$
+3. $\Theta(rows\cdot cols)$
+   
 $T(rows,cols)=\Theta(rows\cdot cols)$
 
 for循环的运行时间至多是循环内部的语句的运行时间乘循环次数

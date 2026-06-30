@@ -373,7 +373,7 @@ $hash_2(x)$是第二个hash function
 ```
 
 一个可行的第二个哈希函数
-$$hash_2(x) = R - (x \% R)$$
+$$hash_2(x) = R - (x \\% R)$$
 R 是小于 TableSize 的质数
 
 如果double hashing正确实现，它的探测次数的期望值跟random collision resolution strategy效果差不多，大概就是不同的键拥有完全独立的探测序列且这个序列是一系列随机数

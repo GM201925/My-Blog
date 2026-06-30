@@ -3,6 +3,8 @@ title: Chapter 2 - Lists,Stacks,Queues
 date: 2026-03-14 15:11:04
 categories: Data Structure
 mathjax: true
+thumbnail: img/test.png
+
 ---
 {% callout success %} 
 定义
@@ -17,7 +19,10 @@ mathjax: true
 其他
 {% endcallout %}
 # 0 &nbsp;Solution to Exercise
-
+不论$n$是奇数还是偶数，都调用了两次函数
+$$T(n)=2T(\frac{n}{2})+O(1)=...=2^kT(1)+O(1+2+2^2+...+2^{k-1})$$
+其中$$k=log_2n$$
+所以复杂度为$O(n)$
 # 1 &nbsp;Abstract Data Type(ADT)
 {% callout success title="Definition" %} 
 Data Type = {Obejcts}$\cup${Operations}
@@ -275,7 +280,7 @@ Poly_ptr poly_add( Poly_ptr a, Poly_ptr b )
         }
         else if(pa->exponent < pb->exponent)
         {
-            move->next = createNode(pa->coefficient,pa->exponent);
+            move->next = createNode(pb->coefficient,pb->exponent);
             move = move->next;
             pb = pb->next;
         }
@@ -456,7 +461,7 @@ b为桶的数量，如十进制按位划分，b=10
 每轮在做的就是：
 从0号桶开始遍历每个桶(b)，遇到一个元素就放在对应桶里，共n次，故p(n+b)
 
-虽然当b和n同阶，p为常数是复杂度是线性的，但运行时间的常数因子可能高
+虽然当b和n同阶，p为常数时复杂度是线性的，但运行时间的常数因子可能高
 
 1. 链表的内存不连续：缓存命中率低（CPU 访问连续内存比跳着访问快很多）；
 2. 指针操作开销：每个元素要存指针，插入删除要操作指针，比数组的 “连续读写” 慢；
@@ -571,7 +576,7 @@ void dispose_stack(STACK* s)
 void Push(STACK* p,ElementType x)
 {
     //判断栈是否满
-    if(p->top == p->stack_array-1)
+    if(p->top == p->stack_size-1)
     {
         puts("栈满");
         return;
@@ -699,3 +704,65 @@ void infix_to_postfix(Token* infix_tokens, int infix_count, Token* postfix_token
     *postfix_count = p_count;
 }
 ```
+
+计算postfix表达式：
+- 读入数字先入栈
+- 读入运算符，取出栈顶两个元素1，2，计算2op1，得到元素3，入栈
+- 读完表达式后，pop出栈内的那个元素，就是结果
+
+$T(N)=O(N)$
+
+Infix转Postfix：
+- 读入字母，即operand，直接输出
+
+- 读入运算符，如果栈内有操作符，先判断优先级，如果这个运算符的优先级高于当前栈顶的运算符，入栈。例如，a+b\*c，输出a，+入栈，输出b，\*的优先级高于+，所以它还要等下一个操作数，先入栈。如果这个运算符的优先级低于或等于当前栈顶的运算符，例如a+b\*c-d，\*入栈后，输出c，读入-，-的优先级小于\*，所以目前的两个操作数b,c应该运算了，弹出\*，然后继续判断-和+的优先级，一样，所以+也可以算了（即计算a+b\*c），弹出+，然后将-入栈。最后读并输出d，读完了，就弹出栈内剩下的元素。
+
+- 应当指出的是，之所以读入操作符的优先级低于或等于当前栈顶的运算符的优先级，就可以让栈顶运算符先计算，是因为当栈内已经有运算符又读入了下一个运算符时，说明这时操作数已经齐了，例如上面的a+b\*c，读入b时+的操作数就齐了，而当我们读入\*时更能肯定+的操作数已经齐了，因为中缀表达式里不会出现a+\*或者-+b\*这种东西，但不能急着运算，要看下一个运算符的优先级，比如是\*，你就不能弹出+，而应该把\*入栈
+
+- 如果读入了左括号(，这时它的优先级高于一切，直接入栈，读入下一个运算符时，如果栈顶的运算符是左括号，这时左括号的优先级又低于一切，当前读入的运算符要入栈。简而言之，遇到左括号直接入栈，左括号还在栈内时，遇到任何运算符都先入栈
+
+- 读入右括号后，不停出栈直到遇到左括号，然后将左括号pop
+
+- 2^2^3=$2^{2^3}$，^是右结合的，应转换成2 2 3 ^ ^，如果按上面的操作会变成2 2 ^ 3 ^
+
+# &nbsp; The Queue ADT
+先进先出的list
+```c
+typedef struct {
+    int capcity;
+    int front;
+    int rear;
+    int size;
+    ElementType* arr;
+}Queue;
+
+// 初始化，rear=-1, front=0
+void Enqueue(ElementType x, Queue* q)
+{
+    if(isFull(q))
+    {
+        return;
+    }
+    q->rear = (q->rear + 1) % q->capacity;
+    q->arr[q->rear] = x;
+    q->size++;
+}
+
+ElementType Dequeue(Queue* q)
+{
+    if(isEmpty(q))
+    {
+        return;
+    }
+    ElementType x = q->arr[front];
+    q->front = (q->front + 1) % q->capacity; // 循环移动
+    q->size--;
+}
+```
+用size是极好的，判断空还是满直接看size即可。
+所以circular queue让我非常不舒服
+
+画一个圈，分成六个区域，rear指向[0]，front指向[1]，插入元素就放到rear的下一个位置(顺时针动一步)，并把rear设置为这个位置，出队就删去front指的元素，把front顺时针挪动一位
+
+所以当(rear+2) % size(这里是6) == front时，队满
+当(rear+1) % size == front时，队空

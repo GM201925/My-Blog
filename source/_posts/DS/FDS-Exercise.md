@@ -2,6 +2,7 @@
 title: FDS-Exercise
 date: 2026-03-25 10:29:39
 categories: Data Structure
+cover: img/test_2.png
 ---
 
 # 0 写在前面
@@ -249,7 +250,25 @@ void StronglyConnectedComponents( Graph G, void (*visit)(Vertex V) )
 
 
 
-
+# #4 插入排序
+练习
+```c
+void InsertionSort(ElementType A[], int N)
+{
+    int j = 0;
+    int p = 0;
+    int tmp = 0;
+    for(p=1;p<N;++p)
+    {
+        tmp = A[p];
+        for(j=p;j>=1 && tmp < A[j-1];j--)
+        {
+            A[j] = A[j-1];
+        }
+        A[j] = tmp;
+    }
+}
+```
 
 # 理论题
 A graph with 90 vertices and 20 edges must have at most __ connected component(s).

@@ -3,6 +3,8 @@ title: Chapter 4 - Heap
 date: 2026-04-19 10:02:14
 categories: Data Structure
 mathjax: true
+thumbnail: img/test.png
+
 ---
 {% callout success %} 
 定义
@@ -241,3 +243,111 @@ $S=\sum_{k=0}^H 2^k(H-k)$
 
 ## 2.6 Percolate Down/Percolate Up
 我们可以看到，上滤/下滤操作在堆中是很常见的，下面一道练习题。
+{% callout primary::Exercise %} 
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef int ElementType;
+#define MinData -1
+
+typedef struct HeapStruct *PriorityQueue;
+struct HeapStruct {
+    ElementType  *Elements;
+    int Capacity;
+    int Size;
+};
+
+PriorityQueue Initialize( int MaxElements ); /* details omitted */
+
+void PercolateUp( int p, PriorityQueue H );
+void PercolateDown( int p, PriorityQueue H );
+
+void Insert( ElementType X, PriorityQueue H ) 
+{
+    int p = ++H->Size;
+    H->Elements[p] = X;
+    PercolateUp( p, H );
+}
+
+ElementType DeleteMin( PriorityQueue H ) 
+{ 
+    ElementType MinElement; 
+    MinElement = H->Elements[1];
+    H->Elements[1] = H->Elements[H->Size--];
+    PercolateDown( 1, H );
+    return MinElement; 
+}
+
+int main()
+{
+    int n, i, op, X;
+    PriorityQueue H;
+
+    scanf("%d", &n);
+    H = Initialize(n);
+    for ( i=0; i<n; i++ ) {
+        scanf("%d", &op);
+        switch( op ) {
+        case 1:
+            scanf("%d", &X);
+            Insert(X, H);
+            break;
+        case 0:
+            printf("%d ", DeleteMin(H));
+            break;
+        }
+    }
+    printf("\nInside H:");
+    for ( i=1; i<=H->Size; i++ )
+        printf(" %d", H->Elements[i]);
+    return 0;
+}
+
+/* Your function will be put here */
+
+```
+请写出函数
+
+```c
+void PercolateUp( int p, PriorityQueue H )
+{
+    // 目标是把p位置的结点上滤，其实跟查找部分很像
+    // 题目中也把这个函数应用到了查找
+    int tmp = H->Elements[p];
+
+    int i = p;
+
+    for(;H->Elements[i/2] > tmp && i > 1;i/=2) // 别忘了i > 1
+    {
+        H->Elements[i] = H->Elements[i/2]; // parent更大，放下来
+    }
+    H->Elemnts[i] = tmp; // 此时i处不比它的parent小了，替换为tmp
+}
+
+void PercolateDown( int p, PriorityQueue H )
+{
+    int parent = p; // 目前在哪一层
+    int child = 0;
+    for(parent = p;parent*2 <= H->Size; parent = child)
+    {
+        child = parent*2; // left child
+        if(child+1 <= H->Size && H->Elements[child] > H->Elements[child+1])
+        {
+            child++; // right child is smaller
+        }
+        if(H->Elements[child] < H->Elements[parent])
+        {
+            int tmp = H->Elements[child];
+            H->Elements[child] = H->Elements[parent];
+            H->Elements[parent] = tmp;
+            // Just exchange, may be better in exams
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+```
+{% endcallout %}

@@ -3,6 +3,8 @@ title: Chapter 3 - Tree
 date: 2026-03-28 18:14:41
 categories: Data Structure
 mathjax: true
+thumbnail: img/test.png
+
 ---
 
 {% callout success %} 
@@ -17,7 +19,6 @@ mathjax: true
 {% callout primary %} 
 其他
 {% endcallout %}
-# 0 &nbsp;Solution to Exercise
 
 # 1 &nbsp;Preliminaries
 {% callout success::Definition %} 
@@ -65,7 +66,7 @@ A binary tree is a tree in which no node can have more than two children.
 
 性质：
 - 一个二叉树第i层最大结点数是$2^{i-1}$
-- 深度为k的二叉树的最大总结点数是$2^k-1$
+- 深度为k的二叉树的最大总结点数是$2^{k+1}-1$
 - 对任何非空二叉树，$n_0$表示叶结点个数，$n_2$是度为2的结点个数，那么$n_0=n_2+1$
 >证明：边数，除了root，每个结点的上面都有一条边，边数为$n_0+n_1+n_2-1$，再考虑每个结点下面的边，边数为$2n_2+n_1$，两者相等即得证
 
@@ -819,7 +820,7 @@ Tree Delete(ElementType x, Tree bst)
         {
             Tree tmp = FindMin(bst->right);
             bst->element = tmp->element;
-            bst-right = Delete(tmp->element,bst->right);
+            bst->right = Delete(tmp->element,bst->right);
         }
         else
         {
@@ -841,4 +842,6 @@ Tree Delete(ElementType x, Tree bst)
     return bst;
 }
 ```
-由于$T(h) = T(h-1) + O(1)$,(每层为常数次操作+下一层时间，FindMin和删最小/大元素也是O(h))$T(N) = O(h) , h$为树的高(深)度
+整个删除过程分为寻找删除结点+执行删除(else部分)，在递归下降查找阶段，设树的高度为h，设找到待删除结点的时间复杂度为T(h)，$T(h) = T(h-1) + O(1)$,可以得到$T(h) = O(d), d$为待删除结点在原树的深度，而$O(d)=O(h)$，之后进入else分支，当有两个孩子的情况最复杂，首先FindMin是$O(h)$，删除部分由于是删除右子树最小元素，找到最小元素$O(h)$，删掉$O(1)$，因此else分支部分时间复杂度为$O(h)$
+
+最坏情况下，$h=N$，平均和最好情况下，$h=O(logN)$
