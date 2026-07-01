@@ -3,6 +3,8 @@ title: Chapter 12 - Hashing
 date: 2026-06-14 14:52:22
 categories: Data Structure
 mathjax: true
+cover: img/test.png
+
 ---
 {% callout success %} 
 定义

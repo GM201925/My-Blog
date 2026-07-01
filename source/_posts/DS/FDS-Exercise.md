@@ -2,7 +2,7 @@
 title: FDS-Exercise
 date: 2026-03-25 10:29:39
 categories: Data Structure
-cover: img/test_2.png
+cover: img/test.png
 ---
 
 # 0 写在前面

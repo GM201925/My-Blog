@@ -3,6 +3,8 @@ title: Chapter 4 - Sequential Circuits
 date: 2026-05-17 11:32:55
 mathjax: true
 categories: Logic and Computer Design Fundamentals
+cover: img/gbcop.png
+
 ---
 
 # 1 Sequential Circuit Definition
@@ -10,8 +12,7 @@ A circuit whose output depends not only on the present input but also on the his
 called a sequential circuit.
 
 
-Figure 4-1(a) is block diagram of a sequential circuit, formed by interconnecting a combinational circuit and storage elements. The storage elements are circuits that are capable of storing binary information. The binary information stored in 
-these elements at any given time defines the ***state*** of the sequential circuit at that time. The sequential circuit receives binary information from its environment via the inputs. These inputs, together with the present state of the storage elements, determine the binary value of the outputs. 
+Figure 4-1(a) is block diagram of a sequential circuit, formed by interconnecting a combinational circuit and storage elements. The storage elements are circuits that are capable of storing binary information. The binary information stored in these elements at any given time defines the ***state*** of the sequential circuit at that time. The sequential circuit receives binary information from its environment via the inputs. These inputs, together with the present state of the storage elements, determine the binary value of the outputs. 
 
 The block diagram demonstrates that the outputs in a sequential circuit are a function not only of the inputs, but also of the present state of the storage elements. The next state of the storage elements is also a function of the inputs and the present state. Thus, a sequential circuit is specified by a time sequence of inputs, internal states, and outputs.
 ![](img/LCDF/4-1.png)
@@ -44,7 +45,7 @@ There are two main types of sequential circuits, and their classification depend
 This is necessary to avoid the metastable behavior.
 ![](img/LCDF/4-4.png)
 
-我们可以加上一个额外的输入控制信号，如果这个信号跟时钟脉冲序列有关，电路就变成同步的了，状态更新开始受时间控制，我们称指为SR触发器，虽然它并不是触发器
+我们可以加上一个额外的输入控制信号，如果这个信号跟时钟脉冲序列有关，电路就变成同步的了，状态更新开始受时间控制，我们称之为SR触发器，虽然它并不是触发器
 ![](img/LCDF/4-5.png)
 
 ## 2.2 D Latches

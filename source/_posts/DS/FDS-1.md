@@ -254,3 +254,5 @@ for(int i = 0;i<n*n*n/2;++i)
 {% folding class="purple" title="Hint" open=false %}
 当比较两个程序的时间复杂度时，我们认为N是无限大的
 {% endfolding %}
+
+[回到目录](https://fuyukawa.netlify.app/categories/Data-Structure/)

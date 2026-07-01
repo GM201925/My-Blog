@@ -3,6 +3,8 @@ title: Chapter 2 - Combinational Logic Circuits
 date: 2026-03-18 20:35:00
 categories: Logic and Computer Design Fundamentals
 mathjax: true
+cover: img/gbcop.png
+
 ---
 
 ## 1 Binary Logic and Gates
@@ -38,7 +40,7 @@ Today,***transistors*** are used as electronic switches that open and close curr
 
 通用逻辑门(A gate type that alone can be used to implement all possible Boolean functions)有与非、或非逻辑门，与非门可以表示其他所有门，或非门也是
 
-例如，与非门两个输入都是$x$就能得到$\bar{x}$
+例如，与非门两个输入都是$x$就能得到$\bar{x}$，有了非门后，与非门接上非门就得到与门，两个输入先非再与非就得到或门
 
 ### 1.4 Gate Delay
 In actual physical gates,if one or more input changes cause the output to change,the output change does not occur instantaneously.
@@ -151,7 +153,7 @@ $=AB+\bar{A}C$
 即
 $x+y+\bar{x}\cdot \bar{y}=1$
 而且
-$(x+y)\cdot (\bar{x}\cdot \bar{y})$
+$(x+y)\cdot (\bar{x}\cdot \bar{y})=0$
 {% endcallout %}
 
 ### 3.2 Challenges in Manipulating Boolean Functions
@@ -283,6 +285,7 @@ $$F=\bar{X} \bar{Y}+X\bar{Y},\bar{F}=(X+Y)(\bar{X}+Y)$$
 $\bar{F}=m_1+m_3$
 也可以用结果为0的行来表示
 $\bar{F}=M_0M_2$
+要注意的是，最大项和最小项下标代表的都是输入的逻辑变量的取值，例如$M_2$和$m_2$都是代表输入$X=1, Y=0$，一个是$\bar X+Y$(即这个输入下取0)，另一个是$X\bar Y$
 
 当然也可以直接用德摩根律加$m_i=\bar{M_i}$证明
 

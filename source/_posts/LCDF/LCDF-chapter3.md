@@ -3,7 +3,10 @@ title: Chapter 3 - Combinational Logic Design
 date: 2026-04-22 17:49:45
 mathjax: true
 categories: Logic and Computer Design Fundamentals
+cover: img/gbcop.png
+
 ---
+对不起，先鸽了，因为明天要考试了呜呜，要靠前辈的笔记先复习了
 A combinational circuit consists of logic gates whose 
 output is a function of only the present input.
 

@@ -3,6 +3,8 @@ title: Chapter 11 - Sorting (1)
 date: 2026-05-16 23:06:55
 categories: Data Structure
 mathjax: true
+cover: img/test.png
+
 ---
 {% callout success %} 
 定义

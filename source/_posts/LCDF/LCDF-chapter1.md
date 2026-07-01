@@ -3,9 +3,12 @@ title: Chapter 1 - Digital Systems and Information
 date: 2026-03-05 10:20:30
 mathjax: true
 categories: Logic and Computer Design Fundamentals
+cover: img/gbcop.png
+
 ---
 ## 0 写在前面
 数逻的笔记学习了[Isshiki学长的笔记](https://note.isshikih.top/cour_note/D2QD_DigitalDesign)
+本文在亮色模式下阅读体验也许更好
 
 ## 1 Analog and Digital Signals
 - Analog and digital signals are two types of signals carrying information.
@@ -169,8 +172,9 @@ Two successive value differ in only one bit.
 |5|101|111|
 |6|110|101|
 |7|111|100|
+
 上表所示的是binary reflected Gray code
-反射在哪里？
+反射体现在哪里？
 
 我们先不看最高位，前四个是00,01,11,10
 后四个是10,11,01,00
@@ -190,7 +194,7 @@ Two successive value differ in only one bit.
 Converting a binary code to a specific Gray Code(binary relfected Gray Code) can be obtained by adding each adjacent(邻近的) pair of binary code bits to get the next Gray code bit(Discard carry).
 
 即保留最高位，后面每位和前一位异或
-这等价于二进制数和二进制数左移1位(最高位补0)异或
+这等价于二进制数和二进制数右移1位(最高位补0)异或
 
 例如110
 最高位1
